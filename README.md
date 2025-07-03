@@ -34,7 +34,7 @@ Imagine you are building a personal project: a simple, client-side only blog or 
 Your Interactive Personal Blog Platform must include the following features:
 
 #### 1. Create New Posts:
-- [ ] A form with fields for a post title and post content (e.g., using `<input type="text">` for title and `<textarea>` for content).
+- [x] A form with fields for a post title and post content (e.g., using `<input type="text">` for title and `<textarea>` for content).
 - [ ] Upon submission, the new post should be added to a list of posts displayed on the page.
 - [ ] The form should be validated: both title and content are required.
 - [ ] Display custom, user-friendly error messages if validation fails.
