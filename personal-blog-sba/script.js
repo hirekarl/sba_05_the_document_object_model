@@ -1,6 +1,6 @@
-/**********************
- * HTML DOM Constants *
- **********************/
+/*************
+ * Constants *
+ *************/
 
 const addPostForm = document.getElementById("add-post-form")
 const titleInput = document.getElementById("title-input")
@@ -57,7 +57,7 @@ const blogPosts = {
   items: [],
   domElement: postsContainer,
   sort: function () {
-    // Display the most recent posts first
+    // Order by timestamp, descending (most recent first).
     this.items.sort((a, b) => {
       return b.timestamp - a.timestamp
     })
@@ -98,8 +98,8 @@ const blogPosts = {
   deserialize: function () {
     const postsJson = localStorage.getItem("posts")
     if (postsJson && postsJson != "") {
-      const posts = JSON.parse(postsJson)
-      posts.forEach((post) => {
+      const postsArray = JSON.parse(postsJson)
+      postsArray.forEach((post) => {
         this.addNewPost(post.title, post.content, post.timestamp)
         this.display()
       })
@@ -112,8 +112,8 @@ const blogPosts = {
     }
   },
   serialize: function () {
-    const postsJson = this.items.map((post) => post.deconstruct())
-    return JSON.stringify(postsJson)
+    const postsArray = this.items.map((post) => post.deconstruct())
+    return JSON.stringify(postsArray)
   },
   save: function () {
     const postsJson = this.serialize()
@@ -180,7 +180,7 @@ class Post {
       "btn-sm",
       "btn-warning"
     )
-    postEditButton.innerHTML = `<i class="bi bi-pencil-square"></i> Edit`
+    postEditButton.innerHTML = '<i class="bi bi-pencil-square"></i> Edit'
     postButtons.appendChild(postEditButton)
 
     const postDeleteButton = document.createElement("button")
@@ -192,7 +192,7 @@ class Post {
       "btn-sm",
       "btn-danger"
     )
-    postDeleteButton.innerHTML = `<i class="bi bi-trash"></i> Delete`
+    postDeleteButton.innerHTML = '<i class="bi bi-trash"></i> Delete'
     postButtons.appendChild(postDeleteButton)
   }
 
