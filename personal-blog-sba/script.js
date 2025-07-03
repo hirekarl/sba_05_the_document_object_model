@@ -3,13 +3,10 @@
  **********************/
 
 const addPostForm = document.getElementById("add-post-form")
-
 const titleInput = document.getElementById("title-input")
 const titleError = document.getElementById("title-error")
-
 const contentTextarea = document.getElementById("content-textarea")
 const contentError = document.getElementById("content-error")
-
 const submitButton = document.getElementById("submit-button")
 const postsContainer = document.getElementById("posts")
 
@@ -18,13 +15,10 @@ const modal = new bootstrap.Modal(document.getElementById("modal"), {
   keyboard: true,
 })
 const modalForm = document.getElementById("modal-form")
-
 const modalTitleInput = document.getElementById("modal-title-input")
 const modalTitleError = document.getElementById("modal-title-error")
-
 const modalContentTextarea = document.getElementById("modal-content-textarea")
 const modalContentError = document.getElementById("modal-content-error")
-
 const modalSaveButton = document.getElementById("modal-save")
 
 /*****************
@@ -40,16 +34,13 @@ function main() {
 
   addPostForm.addEventListener("input", handleSubmitButton)
   addPostForm.addEventListener("submit", (event) => handleAddPostForm(event))
-
   titleInput.addEventListener("input", handleTitleInput)
   contentTextarea.addEventListener("input", handleContentTextarea)
-
   postsContainer.addEventListener("click", (event) =>
     handlePostsContainer(event)
   )
 
   modalForm.addEventListener("submit", (event) => handleModalForm(event))
-
   modalTitleInput.addEventListener("input", handleModalTitleInput, true)
   modalContentTextarea.addEventListener(
     "input",
@@ -261,6 +252,7 @@ function handleTitleInput() {
   titleInput.classList.remove("is-valid", "is-invalid")
   titleInput.setCustomValidity("")
   titleError.textContent = ""
+
   if (titleInput.validity.valueMissing) {
     titleInput.setCustomValidity("You must enter a title.")
     titleError.textContent = titleInput.validationMessage
@@ -276,6 +268,7 @@ function handleContentTextarea() {
   contentTextarea.classList.remove("is-valid", "is-invalid")
   contentTextarea.setCustomValidity("")
   contentError.textContent = ""
+
   if (contentTextarea.validity.valueMissing) {
     contentTextarea.setCustomValidity("You must enter content.")
     contentError.textContent = contentTextarea.validationMessage
@@ -313,6 +306,7 @@ function handleModalTitleInput() {
   modalTitleInput.classList.remove("is-valid", "is-invalid")
   modalTitleInput.setCustomValidity("")
   modalTitleError.textContent = ""
+
   if (modalTitleInput.validity.valueMissing) {
     modalTitleInput.setCustomValidity("You must enter a title.")
     modalTitleError.textContent = modalTitleInput.validationMessage
@@ -328,6 +322,7 @@ function handleModalContentTextarea() {
   modalContentTextarea.classList.remove("is-valid", "is-invalid")
   modalContentTextarea.setCustomValidity("")
   modalContentError.textContent = ""
+
   if (modalContentTextarea.validity.valueMissing) {
     modalContentTextarea.setCustomValidity("You must enter content.")
     modalContentError.textContent = modalContentTextarea.validationMessage
