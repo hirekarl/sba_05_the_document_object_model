@@ -6,14 +6,16 @@ const titleError = document.getElementById("title-error")
 const contentTextarea = document.getElementById("content-textarea")
 const contentError = document.getElementById("content-error")
 
+const submitButton = document.getElementById("submit-button")
+
 const posts = document.getElementById("posts")
 
 document.addEventListener("DOMContentLoaded", main)
 
 function main() {
   addPostForm.addEventListener("submit", (event) => handleAddPostForm(event))
-  titleInput.addEventListener("blur", handleTitleInput)
-  contentTextarea.addEventListener("blur", handleContentTextarea)
+  titleInput.addEventListener("input", handleTitleInput)
+  contentTextarea.addEventListener("input", handleContentTextarea)
 }
 
 function handleAddPostForm(event) {
