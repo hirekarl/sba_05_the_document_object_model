@@ -180,6 +180,7 @@ class Post {
 
     const postEditButton = document.createElement("button")
     postEditButton.type = "button"
+    postEditButton.setAttribute("aria-label", "Edit.")
     postEditButton.dataset.bsToggle = "modal"
     postEditButton.dataset.bsTarget = "#modal"
     postEditButton.classList.add(
@@ -193,6 +194,7 @@ class Post {
 
     const postDeleteButton = document.createElement("button")
     postDeleteButton.type = "button"
+    postDeleteButton.setAttribute("aria-label", "Delete.")
     postDeleteButton.classList.add(
       "post-delete-button",
       "btn",
