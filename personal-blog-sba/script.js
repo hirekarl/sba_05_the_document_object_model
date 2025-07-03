@@ -1,6 +1,6 @@
-/*************
- * Constants *
- *************/
+/*****************************************************************************
+ * Constants                                                                 *
+ *****************************************************************************/
 
 const addPostForm = document.getElementById("add-post-form")
 const titleInput = document.getElementById("title-input")
@@ -21,9 +21,9 @@ const modalContentTextarea = document.getElementById("modal-content-textarea")
 const modalContentError = document.getElementById("modal-content-error")
 const modalSaveButton = document.getElementById("modal-save")
 
-/*****************
- * Main Behavior *
- *****************/
+/*****************************************************************************
+ * Main Behavior                                                             *
+ *****************************************************************************/
 
 document.addEventListener("DOMContentLoaded", main)
 
@@ -41,17 +41,13 @@ function main() {
   )
 
   modalForm.addEventListener("submit", (event) => handleModalForm(event))
-  modalTitleInput.addEventListener("input", handleModalTitleInput, true)
-  modalContentTextarea.addEventListener(
-    "input",
-    handleModalContentTextarea,
-    true
-  )
+  modalTitleInput.addEventListener("input", handleModalTitleInput)
+  modalContentTextarea.addEventListener("input", handleModalContentTextarea)
 }
 
-/*******************
- * Data Structures *
- *******************/
+/*****************************************************************************
+ * Data Structures                                                           *
+ *****************************************************************************/
 
 const blogPosts = {
   items: [],
@@ -215,9 +211,9 @@ class Post {
   }
 }
 
-/******************
- * Event Handlers *
- ******************/
+/*****************************************************************************
+ * Event Handlers                                                            *
+ *****************************************************************************/
 
 function handleSubmitButton() {
   if (addPostForm.checkValidity()) submitButton.disabled = false
@@ -281,6 +277,7 @@ function handleContentTextarea() {
 
 function handlePostsContainer(event) {
   modal.hide()
+
   modalTitleInput.value = ""
   modalContentTextarea.textContent = ""
   modalSaveButton.dataset.target = ""
