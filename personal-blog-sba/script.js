@@ -1,10 +1,35 @@
+/**
+ * HTML DOM Constants
+ */
+
 const addPostForm = document.getElementById("add-post-form")
+
 const titleInput = document.getElementById("title-input")
 const titleError = document.getElementById("title-error")
+
 const contentTextarea = document.getElementById("content-textarea")
 const contentError = document.getElementById("content-error")
+
 const submitButton = document.getElementById("submit-button")
 const postsContainer = document.getElementById("posts")
+
+const modal = new bootstrap.Modal(document.getElementById("modal"), {
+  focus: true,
+  keyboard: true,
+})
+const modalForm = document.getElementById("modal-form")
+
+const modalTitleInput = document.getElementById("modal-title-input")
+const modalTitleError = document.getElementById("modal-title-error")
+
+const modalContentTextarea = document.getElementById("modal-content-textarea")
+const modalContentError = document.getElementById("modal-content-error")
+
+const modalSaveButton = document.getElementById("modal-save")
+
+/**
+ * Main Behavior
+ */
 
 document.addEventListener("DOMContentLoaded", main)
 
@@ -22,7 +47,20 @@ function main() {
   postsContainer.addEventListener("click", (event) =>
     handlePostsContainer(event)
   )
+
+  modalForm.addEventListener("submit", (event) => handleModalForm(event))
+
+  modalTitleInput.addEventListener("input", handleModalTitleInput, true)
+  modalContentTextarea.addEventListener(
+    "input",
+    handleModalContentTextarea,
+    true
+  )
 }
+
+/**
+ * Data Structures
+ */
 
 const blogPosts = {
   items: [],
@@ -48,12 +86,19 @@ const blogPosts = {
     this.items.push(post)
     this.save()
   },
-  editPost: function (postId) {
-    // TODO
-    return
+  getPostById: function (postId) {
+    const post = this.items.find((post) => post.id === postId)
+    return post
+  },
+  editPost: function (postId, newTitle, newContent) {
+    const postToEdit = this.getPostById(postId)
+    postToEdit.title = newTitle
+    postToEdit.content = newContent
+    postToEdit.createHtml()
+    this.save()
   },
   removePost: function (postId) {
-    let postToRemove = this.items.find((post) => post.id === postId)
+    let postToRemove = this.getPostById(postId)
     postToRemove.domElement.remove()
     this.items.splice(this.items.indexOf(postToRemove), 1)
     this.save()
@@ -101,6 +146,8 @@ class Post {
   }
 
   createHtml() {
+    this.domElement.textContent = ""
+
     this.domElement.dataset.id = this.id.toString()
     this.domElement.classList.add("post", "mb-3")
 
@@ -119,7 +166,7 @@ class Post {
 
     const postTimestamp = document.createElement("p")
     postTimestamp.classList.add("post-timestamp")
-    postTimestamp.innerHTML = `<em>${this.displayDate()}</em>`
+    postTimestamp.innerHTML = `<em>Published ${this.displayDate()}</em>`
     cardBody.appendChild(postTimestamp)
 
     const postContent = document.createElement("div")
@@ -133,6 +180,8 @@ class Post {
 
     const postEditButton = document.createElement("button")
     postEditButton.type = "button"
+    postEditButton.dataset.bsToggle = "modal"
+    postEditButton.dataset.bsTarget = "#modal"
     postEditButton.classList.add(
       "post-edit-button",
       "btn",
@@ -173,6 +222,10 @@ class Post {
   }
 }
 
+/**
+ * Event Handlers
+ */
+
 function handleSubmitButton() {
   if (addPostForm.checkValidity()) submitButton.disabled = false
   else submitButton.disabled = true
@@ -181,9 +234,11 @@ function handleSubmitButton() {
 function handleAddPostForm(event) {
   event.preventDefault()
 
-  if (!addPostForm.checkValidity()) return
-
-  addPostForm.classList.remove("needs-validation")
+  if (!addPostForm.checkValidity()) {
+    event.stopPropagation()
+    addPostForm.classList.add("was-validated")
+    return
+  }
 
   const addPostFormData = new FormData(addPostForm)
   const title = addPostFormData.get("title")
@@ -200,12 +255,14 @@ function handleAddPostForm(event) {
 }
 
 function handleTitleInput() {
+  titleInput.removeAttribute("aria-describedby")
   titleInput.classList.remove("is-valid", "is-invalid")
   titleInput.setCustomValidity("")
   titleError.textContent = ""
   if (titleInput.validity.valueMissing) {
     titleInput.setCustomValidity("You must enter a title.")
     titleError.textContent = titleInput.validationMessage
+    titleInput.setAttribute("aria-describedby", "title-error")
     titleInput.classList.add("is-invalid")
   } else {
     titleInput.classList.add("is-valid")
@@ -213,12 +270,14 @@ function handleTitleInput() {
 }
 
 function handleContentTextarea() {
+  contentTextarea.removeAttribute("aria-describedby")
   contentTextarea.classList.remove("is-valid", "is-invalid")
   contentTextarea.setCustomValidity("")
   contentError.textContent = ""
   if (contentTextarea.validity.valueMissing) {
     contentTextarea.setCustomValidity("You must enter content.")
     contentError.textContent = contentTextarea.validationMessage
+    contentTextarea.setAttribute("aria-describedby", "content-error")
     contentTextarea.classList.add("is-invalid")
   } else {
     contentTextarea.classList.add("is-valid")
@@ -226,12 +285,76 @@ function handleContentTextarea() {
 }
 
 function handlePostsContainer(event) {
-  if (event.target.classList.contains("post-edit-button")) {
-    return
+  modal.hide()
+  modalTitleInput.value = ""
+  modalContentTextarea.textContent = ""
+  modalSaveButton.dataset.target = ""
+
+  const postArticle = event.target.closest("article")
+  const postId = parseInt(postArticle.dataset.id)
+  const closestButton = event.target.closest("button")
+
+  if (closestButton.classList.contains("post-edit-button")) {
+    const post = blogPosts.getPostById(postId)
+    modalTitleInput.value = post.title
+    modalContentTextarea.textContent = post.content
+    modalSaveButton.dataset.target = post.id.toString()
+    modal.show()
   }
-  if (event.target.classList.contains("post-delete-button")) {
-    const postArticle = event.target.closest("article")
-    const postId = parseInt(postArticle.dataset.id)
+  if (closestButton.classList.contains("post-delete-button")) {
     blogPosts.removePost(postId)
   }
+}
+
+function handleModalTitleInput() {
+  modalTitleInput.removeAttribute("aria-describedby")
+  modalTitleInput.classList.remove("is-valid", "is-invalid")
+  modalTitleInput.setCustomValidity("")
+  modalTitleError.textContent = ""
+  if (modalTitleInput.validity.valueMissing) {
+    modalTitleInput.setCustomValidity("You must enter a title.")
+    modalTitleError.textContent = modalTitleInput.validationMessage
+    modalTitleInput.setAttribute("aria-describedby", "modal-title-error")
+    modalTitleInput.classList.add("is-invalid")
+  } else {
+    modalTitleInput.classList.add("is-valid")
+  }
+}
+
+function handleModalContentTextarea() {
+  modalContentTextarea.removeAttribute("aria-describedby")
+  modalContentTextarea.classList.remove("is-valid", "is-invalid")
+  modalContentTextarea.setCustomValidity("")
+  modalContentError.textContent = ""
+  if (modalContentTextarea.validity.valueMissing) {
+    modalContentTextarea.setCustomValidity("You must enter content.")
+    modalContentError.textContent = modalContentTextarea.validationMessage
+    modalContentTextarea.setAttribute("aria-describedby", "modal-content-error")
+    modalContentTextarea.classList.add("is-invalid")
+  } else {
+    modalContentTextarea.classList.add("is-valid")
+  }
+}
+
+function handleModalForm(event) {
+  event.preventDefault()
+
+  if (!modalForm.checkValidity()) {
+    event.stopPropagation()
+    modalForm.classList.add("was-validated")
+    return
+  }
+
+  modalForm.classList.add("was-validated")
+
+  const postId = parseInt(modalSaveButton.dataset.target)
+
+  const modalFormData = new FormData(modalForm)
+  const newTitle = modalFormData.get("title")
+  const newContent = modalFormData.get("content")
+
+  modal.hide()
+
+  blogPosts.editPost(postId, newTitle, newContent)
+  blogPosts.display()
 }

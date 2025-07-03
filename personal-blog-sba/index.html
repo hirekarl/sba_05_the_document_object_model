@@ -17,6 +17,7 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="./styles.css" />
+    <script src="./script.js" defer></script>
     <title>SBA 5: The Document Object Model</title>
   </head>
   <body>
@@ -29,7 +30,7 @@
               <h1><strong>SBA 5</strong>: The Document Object Model</h1>
             </header>
             <section class="mb-3" aria-label="Add a new blog post.">
-              <form id="add-post-form" class="needs-validation">
+              <form id="add-post-form" class="needs-validation" novalidate>
                 <fieldset class="border rounded-3 p-3">
                   <legend>Add a new blog post</legend>
                   <div class="mb-3">
@@ -40,6 +41,7 @@
                       id="title-input"
                       class="form-control"
                       autocomplete="off"
+                      placeholder="Scary Story!"
                       required />
                     <p id="title-error" class="text-danger"></p>
                   </div>
@@ -50,6 +52,7 @@
                       id="content-textarea"
                       class="form-control"
                       autocomplete="off"
+                      placeholder="It was a dark and stormy night..."
                       required></textarea>
                     <p id="content-error" class="text-danger"></p>
                   </div>
@@ -68,16 +71,69 @@
             <section aria-label="View blog posts.">
               <h2>Blog posts</h2>
               <hr />
-              <div id="posts"></div>
+              <div id="posts" aria-live="polite"></div>
             </section>
           </div>
         </div>
       </div>
     </main>
+    <div id="modal" class="modal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <form id="modal-form" class="needs-validation" novalidate>
+            <div class="modal-header">
+              <h3 class="fs-5">Edit Post</h3>
+              <button
+                type="button"
+                class="btn-close"
+                data-bs-dismiss="modal"
+                aria-label="Close"></button>
+            </div>
+            <div id="modal-body" class="modal-body">
+              <div class="mb-3">
+                <label for="modal-title-input">Title</label>
+                <input
+                  type="text"
+                  name="title"
+                  id="modal-title-input"
+                  class="form-control"
+                  autocomplete="off"
+                  required />
+                <p id="modal-title-error" class="text-danger"></p>
+              </div>
+              <div class="mb-3">
+                <label for="modal-content-textarea">Content</label>
+                <textarea
+                  name="content"
+                  id="modal-content-textarea"
+                  class="form-control"
+                  autocomplete="off"
+                  required></textarea>
+                <p id="modal-content-error" class="text-danger"></p>
+              </div>
+            </div>
+            <div class="modal-footer">
+              <button
+                type="button"
+                class="btn btn-secondary"
+                data-bs-dismiss="modal">
+                Close
+              </button>
+              <button
+                data-target=""
+                id="modal-save"
+                type="submit"
+                class="btn btn-primary">
+                Save changes
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-ndDqU0Gzau9qJ1lfW4pNLlhNTkCfHzAVBReH9diLvGRem5+R9g2FzA8ZGN954O5Q"
       crossorigin="anonymous"></script>
-    <script src="./script.js"></script>
   </body>
 </html>
