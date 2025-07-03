@@ -1,22 +1,27 @@
 const addPostForm = document.getElementById("add-post-form")
-
 const titleInput = document.getElementById("title-input")
 const titleError = document.getElementById("title-error")
-
 const contentTextarea = document.getElementById("content-textarea")
 const contentError = document.getElementById("content-error")
-
 const submitButton = document.getElementById("submit-button")
-
 const postsContainer = document.getElementById("posts")
 
 document.addEventListener("DOMContentLoaded", main)
 
 function main() {
-  addPostForm.addEventListener("change", handleSubmitButton)
+  blogPosts.deserialize()
+
+  submitButton.disabled = true
+
+  addPostForm.addEventListener("input", handleSubmitButton)
   addPostForm.addEventListener("submit", (event) => handleAddPostForm(event))
+
   titleInput.addEventListener("input", handleTitleInput)
   contentTextarea.addEventListener("input", handleContentTextarea)
+
+  postsContainer.addEventListener("click", (event) =>
+    handlePostsContainer(event)
+  )
 }
 
 const blogPosts = {
@@ -41,15 +46,17 @@ const blogPosts = {
     let post = new Post(title, content, timestamp)
     post.createHtml()
     this.items.push(post)
+    this.save()
   },
   editPost: function (postId) {
     // TODO
     return
   },
   removePost: function (postId) {
-    let postToRemove = this.items.find((post) => post.id === parseInt(postId))
+    let postToRemove = this.items.find((post) => post.id === postId)
     postToRemove.domElement.remove()
     this.items.splice(this.items.indexOf(postToRemove), 1)
+    this.save()
     postToRemove = null
   },
   deserialize: function () {
@@ -58,20 +65,19 @@ const blogPosts = {
       const posts = JSON.parse(postsJson)
       posts.forEach((post) => {
         this.addNewPost(post.title, post.content, post.timestamp)
+        this.display()
       })
     } else {
       try {
-        localStorage.setItem("posts", "")
+        localStorage.setItem("posts", JSON.stringify([]))
       } catch (error) {
         console.error("Couldn't save to local storage:", error)
       }
     }
   },
   serialize: function () {
-    const postsJson = this.items.map((post) =>
-      JSON.stringify(post.deconstruct())
-    )
-    return postsJson
+    const postsJson = this.items.map((post) => post.deconstruct())
+    return JSON.stringify(postsJson)
   },
   save: function () {
     const postsJson = this.serialize()
@@ -87,7 +93,7 @@ class Post {
   static nextId = 0
 
   constructor(title, content, timestamp) {
-    this.id = nextId++
+    this.id = Post.nextId++
     this.domElement = document.createElement("article")
     this.title = title.trim()
     this.content = content.trim()
@@ -100,6 +106,7 @@ class Post {
 
     const card = document.createElement("div")
     card.classList.add("card")
+    this.domElement.appendChild(card)
 
     const cardBody = document.createElement("div")
     cardBody.classList.add("card-body")
@@ -120,6 +127,10 @@ class Post {
     postContent.textContent = this.content
     cardBody.appendChild(postContent)
 
+    const postButtons = document.createElement("div")
+    postButtons.classList.add("btn-group")
+    cardBody.appendChild(postButtons)
+
     const postEditButton = document.createElement("button")
     postEditButton.type = "button"
     postEditButton.classList.add(
@@ -129,7 +140,7 @@ class Post {
       "btn-warning"
     )
     postEditButton.innerHTML = `<i class="bi bi-pencil-square"></i> Edit`
-    cardBody.appendChild(postEditButton)
+    postButtons.appendChild(postEditButton)
 
     const postDeleteButton = document.createElement("button")
     postDeleteButton.type = "button"
@@ -140,9 +151,7 @@ class Post {
       "btn-danger"
     )
     postDeleteButton.innerHTML = `<i class="bi bi-trash"></i> Delete`
-    cardBody.appendChild(postDeleteButton)
-
-    this.domElement.appendChild(card)
+    postButtons.appendChild(postDeleteButton)
   }
 
   displayDate() {
@@ -170,10 +179,24 @@ function handleSubmitButton() {
 }
 
 function handleAddPostForm(event) {
-  if (!addPostForm.checkValidity()) {
-    event.preventDefault()
-    return
-  }
+  event.preventDefault()
+
+  if (!addPostForm.checkValidity()) return
+
+  addPostForm.classList.remove("needs-validation")
+
+  const addPostFormData = new FormData(addPostForm)
+  const title = addPostFormData.get("title")
+  const content = addPostFormData.get("content")
+
+  blogPosts.addNewPost(title, content)
+  blogPosts.display()
+  addPostForm.reset()
+
+  addPostForm.classList.remove("was-validated")
+  titleInput.classList.remove("is-valid")
+  contentTextarea.classList.remove("is-valid")
+  submitButton.disabled = true
 }
 
 function handleTitleInput() {
@@ -199,5 +222,16 @@ function handleContentTextarea() {
     contentTextarea.classList.add("is-invalid")
   } else {
     contentTextarea.classList.add("is-valid")
+  }
+}
+
+function handlePostsContainer(event) {
+  if (event.target.classList.contains("post-edit-button")) {
+    return
+  }
+  if (event.target.classList.contains("post-delete-button")) {
+    const postArticle = event.target.closest("article")
+    const postId = parseInt(postArticle.dataset.id)
+    blogPosts.removePost(postId)
   }
 }
