@@ -13,6 +13,9 @@
       rel="stylesheet"
       integrity="sha384-LN+7fdVzj6u52u30Kp6M/trliBMCMKTyK833zpbD+pXdCLuTusPj697FH4R/5mcr"
       crossorigin="anonymous" />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.13.1/font/bootstrap-icons.min.css" />
     <link rel="stylesheet" href="./styles.css" />
     <title>SBA 5: The Document Object Model</title>
   </head>
@@ -26,7 +29,7 @@
               <h1><strong>SBA 5</strong>: The Document Object Model</h1>
             </header>
             <section class="mb-3" aria-label="Add a new blog post.">
-              <form id="form">
+              <form id="add-post-form">
                 <fieldset class="border rounded-3 p-3">
                   <legend>Add a new blog post</legend>
                   <div class="mb-3">
@@ -62,8 +65,31 @@
                 </fieldset>
               </form>
             </section>
-            <section class="mb-3" aria-label="View blog posts.">
+            <section aria-label="View blog posts.">
               <h2>Blog posts</h2>
+              <hr />
+              <div id="posts">
+                <article data-id="" class="post mb-3">
+                  <div class="card">
+                    <div class="card-body">
+                      <h3 class="post-title card-title fs-5">
+                        Blog post title
+                      </h3>
+                      <div class="post-content card-text mb-3">Blog post content</div>
+                      <button
+                        type="button"
+                        class="post-edit-button btn btn-sm btn-warning">
+                        <i class="bi bi-pencil-square"></i> Edit
+                      </button>
+                      <button
+                        type="button"
+                        class="post-delete-button btn btn-sm btn-danger">
+                        <i class="bi bi-trash"></i> Delete
+                      </button>
+                    </div>
+                  </div>
+                </article>
+              </div>
             </section>
           </div>
         </div>
