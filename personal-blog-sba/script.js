@@ -13,6 +13,7 @@ const posts = document.getElementById("posts")
 document.addEventListener("DOMContentLoaded", main)
 
 function main() {
+  addPostForm.addEventListener("change", handleSubmitButton)
   addPostForm.addEventListener("submit", (event) => handleAddPostForm(event))
   titleInput.addEventListener("input", handleTitleInput)
   contentTextarea.addEventListener("input", handleContentTextarea)
@@ -23,6 +24,10 @@ function handleAddPostForm(event) {
 }
 
 function addBlogPost() {
+  return
+}
+
+function handleSubmitButton() {
   return
 }
 
