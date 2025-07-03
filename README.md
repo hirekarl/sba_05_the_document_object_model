@@ -4,11 +4,11 @@
 2025-RTT-30  
 <time datetime="2025-07-03">2025-07-03</time>  
 
-![Alt text for preview image goes here.]()
+![Preview of SBA 5 with one published blog post displayed.](./preview.png)
 
 ## Overview
 ### Viewer Instructions
-Go to []() to view the app in deployment, or view submission source code below.
+Go to [glistening-tulumba-56567c.netlify.app/personal-blog-sba](https://glistening-tulumba-56567c.netlify.app/personal-blog-sba/) to view the app in deployment; view submission source code below.
 
 
 ### Submission Source
@@ -35,25 +35,25 @@ Your Interactive Personal Blog Platform must include the following features:
 
 #### 1. Create New Posts:
 - [x] A form with fields for a post title and post content (e.g., using `<input type="text">` for title and `<textarea>` for content).
-- [ ] Upon submission, the new post should be added to a list of posts displayed on the page.
-- [ ] The form should be validated: both title and content are required.
-- [ ] Display custom, user-friendly error messages if validation fails.
+- [x] Upon submission, the new post should be added to a list of posts displayed on the page.
+- [x] The form should be validated: both title and content are required.
+- [x] Display custom, user-friendly error messages if validation fails.
 
 #### 2. Display Posts:
-- [ ] All created posts should be displayed on the page. Each displayed post should clearly show its title and content.
-- [ ] Posts should be rendered dynamically using JavaScript.
+- [x] All created posts should be displayed on the page. Each displayed post should clearly show its title and content.
+- [x] Posts should be rendered dynamically using JavaScript.
 
 #### 3. Edit Posts:
-- [ ] Each displayed post should have an “Edit” button.
-- [ ] Clicking “Edit” should allow the user to modify the title and content of that specific post. This might involve populating the main form (or a modal form) with the existing post data.
-- [ ] After editing, the updated post should be reflected in the display.
-- [ ] Form validation should also apply during editing.
+- [x] Each displayed post should have an “Edit” button.
+- [x] Clicking “Edit” should allow the user to modify the title and content of that specific post. This might involve populating the main form (or a modal form) with the existing post data.
+- [x] After editing, the updated post should be reflected in the display.
+- [x] Form validation should also apply during editing.
 
 #### 4. Delete Posts:
-- [ ] Each displayed post should have a “Delete” button.
-- [ ] Clicking “Delete” should remove the post from the display and from `localStorage`.
+- [x] Each displayed post should have a “Delete” button.
+- [x] Clicking “Delete” should remove the post from the display and from `localStorage`.
 
 #### 5. Data Persistence with `localStorage`:
-- [ ] All blog posts (title, content, and perhaps a unique ID and timestamp you generate) must be saved in `localStorage`.
-- [ ] When the page is loaded or refreshed, any posts previously saved in `localStorage` should be retrieved and displayed.
-- [ ] Updates (from edits) and deletions must also be reflected in `localStorage`.
+- [x] All blog posts (title, content, and perhaps a unique ID and timestamp you generate) must be saved in `localStorage`.
+- [x] When the page is loaded or refreshed, any posts previously saved in `localStorage` should be retrieved and displayed.
+- [x] Updates (from edits) and deletions must also be reflected in `localStorage`.
