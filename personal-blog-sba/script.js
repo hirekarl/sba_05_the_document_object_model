@@ -19,6 +19,11 @@ function main() {
   contentTextarea.addEventListener("input", handleContentTextarea)
 }
 
+function handleSubmitButton() {
+  if (addPostForm.checkValidity()) submitButton.disabled = false
+  else submitButton.disabled = true
+}
+
 function handleAddPostForm(event) {
   return
 }
@@ -27,14 +32,28 @@ function addBlogPost() {
   return
 }
 
-function handleSubmitButton() {
-  return
-}
-
 function handleTitleInput() {
-  return
+  titleInput.classList.remove("is-valid", "is-invalid")
+  titleInput.setCustomValidity("")
+  titleError.textContent = ""
+  if (titleInput.validity.valueMissing) {
+    titleInput.setCustomValidity("You must enter a title.")
+    titleError.textContent = titleInput.validationMessage
+    titleInput.classList.add("is-invalid")
+  } else {
+    titleInput.classList.add("is-valid")
+  }
 }
 
 function handleContentTextarea() {
-  return
+  contentTextarea.classList.remove("is-valid", "is-invalid")
+  contentTextarea.setCustomValidity("")
+  contentError.textContent = ""
+  if (contentTextarea.validity.valueMissing) {
+    contentTextarea.setCustomValidity("You must enter content.")
+    contentError.textContent = contentTextarea.validationMessage
+    contentTextarea.classList.add("is-invalid")
+  } else {
+    contentTextarea.classList.add("is-valid")
+  }
 }
