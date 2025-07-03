@@ -1,6 +1,6 @@
-/**
- * HTML DOM Constants
- */
+/**********************
+ * HTML DOM Constants *
+ **********************/
 
 const addPostForm = document.getElementById("add-post-form")
 
@@ -27,9 +27,9 @@ const modalContentError = document.getElementById("modal-content-error")
 
 const modalSaveButton = document.getElementById("modal-save")
 
-/**
- * Main Behavior
- */
+/*****************
+ * Main Behavior *
+ *****************/
 
 document.addEventListener("DOMContentLoaded", main)
 
@@ -58,9 +58,9 @@ function main() {
   )
 }
 
-/**
- * Data Structures
- */
+/*******************
+ * Data Structures *
+ *******************/
 
 const blogPosts = {
   items: [],
@@ -222,9 +222,9 @@ class Post {
   }
 }
 
-/**
- * Event Handlers
- */
+/******************
+ * Event Handlers *
+ ******************/
 
 function handleSubmitButton() {
   if (addPostForm.checkValidity()) submitButton.disabled = false
