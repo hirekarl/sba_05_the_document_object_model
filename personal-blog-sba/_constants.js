@@ -16,5 +16,7 @@ export const modalContentTextarea = document.getElementById(
   "modal-content-textarea"
 )
 export const modalContentError = document.getElementById("modal-content-error")
-export const modalCloseButton = document.getElementById("modal-close-button")
+export const modalCloseButtons = Array.from(
+  document.querySelectorAll(".modal-close-button")
+)
 export const modalSaveButton = document.getElementById("modal-save-button")

@@ -11,7 +11,7 @@ import {
   modalTitleError,
   modalContentTextarea,
   modalContentError,
-  modalCloseButton,
+  modalCloseButtons,
 } from "./_constants.js"
 
 import { blogPosts } from "./_dataStructures.js"
@@ -55,7 +55,9 @@ function main() {
       "You must enter content."
     )
   )
-  modalCloseButton.addEventListener("click", () => handleModalCloseButton)
+  modalCloseButtons.forEach((modalCloseButton) =>
+    modalCloseButton.addEventListener("click", handleModalCloseButton)
+  )
 
   postsContainer.addEventListener("click", (event) =>
     handlePostsContainer(event)
