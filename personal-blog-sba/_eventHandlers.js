@@ -8,9 +8,9 @@ import {
   modalTitleInput,
   modalContentTextarea,
   modalSaveButton,
-} from "./constants.js"
+} from "./_constants.js"
 
-import { blogPosts } from "./dataStructures.js"
+import { blogPosts } from "./_dataStructures.js"
 
 export function handleSubmitButton() {
   if (addPostForm.checkValidity()) submitButton.disabled = false

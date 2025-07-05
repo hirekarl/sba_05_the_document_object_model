@@ -1,4 +1,4 @@
-import { postsContainer } from "./constants.js"
+import { postsContainer } from "./_constants.js"
 
 export const blogPosts = {
   items: [],

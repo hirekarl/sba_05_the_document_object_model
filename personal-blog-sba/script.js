@@ -11,9 +11,9 @@ import {
   modalTitleError,
   modalContentTextarea,
   modalContentError,
-} from "./constants.js"
+} from "./_constants.js"
 
-import { blogPosts } from "./dataStructures.js"
+import { blogPosts } from "./_dataStructures.js"
 
 import {
   handleSubmitButton,
@@ -21,7 +21,7 @@ import {
   handleModalForm,
   handleField,
   handlePostsContainer,
-} from "./eventHandlers.js"
+} from "./_eventHandlers.js"
 
 document.addEventListener("DOMContentLoaded", main)
 
