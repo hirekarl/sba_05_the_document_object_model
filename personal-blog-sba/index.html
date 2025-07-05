@@ -89,7 +89,7 @@
                 data-bs-dismiss="modal"
                 aria-label="Close."></button>
             </div>
-            <div id="modal-body" class="modal-body">
+            <div class="modal-body">
               <div class="mb-3">
                 <label for="modal-title-input"></label>
                 <input
@@ -114,14 +114,15 @@
             </div>
             <div class="modal-footer">
               <button
+                id="modal-close-button"
                 type="button"
                 class="btn btn-secondary"
                 data-bs-dismiss="modal">
                 Close
               </button>
               <button
-                data-target=""
-                id="modal-save"
+                data-post-id=""
+                id="modal-save-button"
                 type="submit"
                 class="btn btn-primary">
                 Save changes

@@ -6,7 +6,9 @@ import {
   modal,
   modalForm,
   modalTitleInput,
+  modalTitleError,
   modalContentTextarea,
+  modalContentError,
   modalSaveButton,
 } from "./_constants.js"
 
@@ -23,6 +25,10 @@ export function handleAddPostForm(event) {
   if (!addPostForm.checkValidity()) {
     event.stopPropagation()
     addPostForm.classList.add("was-validated")
+
+    const firstInvalidField = addPostForm.querySelector(".is-invalid")
+    firstInvalidField.focus()
+
     return
   }
 
@@ -40,27 +46,44 @@ export function handleAddPostForm(event) {
   submitButton.disabled = true
 }
 
+export function resetModalForm() {
+  modal.hide()
+
+  modalTitleInput.value = ""
+  modalTitleInput.classList.remove("is-valid", "is-invalid")
+  modalTitleError.textContent = ""
+  modalContentTextarea.textContent = ""
+  modalContentTextarea.classList.remove("is-valid", "is-invalid")
+  modalContentError.textContent = ""
+
+  modalSaveButton.dataset.postId = ""
+
+  modalForm.classList.remove("was-validated")
+}
+
 export function handleModalForm(event) {
   event.preventDefault()
 
   if (!modalForm.checkValidity()) {
     event.stopPropagation()
     modalForm.classList.add("was-validated")
+
+    const firstInvalidField = modalForm.querySelector(".is-invalid")
+    firstInvalidField.focus()
+
     return
   }
 
-  modalForm.classList.add("was-validated")
-
-  const postId = parseInt(modalSaveButton.dataset.target)
+  const postId = parseInt(modalSaveButton.dataset.postId)
 
   const modalFormData = new FormData(modalForm)
   const newTitle = modalFormData.get("title")
   const newContent = modalFormData.get("content")
 
-  modal.hide()
-
   blogPosts.editPost(postId, newTitle, newContent)
   blogPosts.display()
+
+  resetModalForm()
 }
 
 export function handleField(field, errorContainer, errorMessage) {
@@ -79,12 +102,12 @@ export function handleField(field, errorContainer, errorMessage) {
   }
 }
 
-export function handlePostsContainer(event) {
-  modal.hide()
+export function handleModalCloseButton() {
+  resetModalForm()
+}
 
-  modalTitleInput.value = ""
-  modalContentTextarea.textContent = ""
-  modalSaveButton.dataset.target = ""
+export function handlePostsContainer(event) {
+  resetModalForm()
 
   const postArticle = event.target.closest("article")
   const postId = parseInt(postArticle.dataset.id)
@@ -94,7 +117,7 @@ export function handlePostsContainer(event) {
     const post = blogPosts.getPostById(postId)
     modalTitleInput.value = post.title
     modalContentTextarea.textContent = post.content
-    modalSaveButton.dataset.target = post.id.toString()
+    modalSaveButton.dataset.postId = post.id.toString()
     modal.show()
   }
   if (closestButton.classList.contains("post-delete-button")) {

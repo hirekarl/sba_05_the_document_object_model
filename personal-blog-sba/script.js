@@ -11,6 +11,7 @@ import {
   modalTitleError,
   modalContentTextarea,
   modalContentError,
+  modalCloseButton,
 } from "./_constants.js"
 
 import { blogPosts } from "./_dataStructures.js"
@@ -18,9 +19,11 @@ import { blogPosts } from "./_dataStructures.js"
 import {
   handleSubmitButton,
   handleAddPostForm,
+  resetModalForm,
   handleModalForm,
   handleField,
   handlePostsContainer,
+  handleModalCloseButton,
 } from "./_eventHandlers.js"
 
 document.addEventListener("DOMContentLoaded", main)
@@ -29,6 +32,8 @@ function main() {
   blogPosts.deserialize()
 
   submitButton.disabled = true
+
+  resetModalForm()
 
   addPostForm.addEventListener("input", handleSubmitButton)
   addPostForm.addEventListener("submit", (event) => handleAddPostForm(event))
@@ -50,6 +55,7 @@ function main() {
       "You must enter content."
     )
   )
+  modalCloseButton.addEventListener("click", () => handleModalCloseButton)
 
   postsContainer.addEventListener("click", (event) =>
     handlePostsContainer(event)

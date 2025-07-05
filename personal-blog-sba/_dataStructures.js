@@ -30,8 +30,8 @@ export const blogPosts = {
   },
   editPost: function (postId, newTitle, newContent) {
     const postToEdit = this.getPostById(postId)
-    postToEdit.title = newTitle
-    postToEdit.content = newContent
+    postToEdit.title = newTitle.trim()
+    postToEdit.content = newContent.trim()
     postToEdit.createHtml()
     this.save()
   },
@@ -44,7 +44,7 @@ export const blogPosts = {
   },
   deserialize: function () {
     const postsJson = localStorage.getItem("posts")
-    if (postsJson && postsJson != "") {
+    if (postsJson) {
       const postsArray = JSON.parse(postsJson)
       postsArray.forEach((post) => {
         this.addNewPost(post.title, post.content, post.timestamp)
