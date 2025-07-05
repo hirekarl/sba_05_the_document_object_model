@@ -40,7 +40,6 @@ export function handleAddPostForm(event) {
   blogPosts.display()
   addPostForm.reset()
 
-  addPostForm.classList.remove("was-validated")
   titleInput.classList.remove("is-valid")
   contentTextarea.classList.remove("is-valid")
   submitButton.disabled = true
@@ -48,21 +47,21 @@ export function handleAddPostForm(event) {
 
 export function resetModalForm() {
   modal.hide()
+  modalForm.reset()
 
-  modalTitleInput.value = ""
+  modalForm.classList.remove("was-validated")
+
   modalTitleInput.classList.remove("is-valid", "is-invalid")
   modalTitleError.textContent = ""
-  modalContentTextarea.textContent = ""
   modalContentTextarea.classList.remove("is-valid", "is-invalid")
   modalContentError.textContent = ""
 
   modalSaveButton.dataset.postId = ""
-
-  modalForm.classList.remove("was-validated")
 }
 
 export function handleModalForm(event) {
   event.preventDefault()
+  modalForm.classList.remove("was-validated")
 
   if (!modalForm.checkValidity()) {
     event.stopPropagation()
@@ -92,14 +91,23 @@ export function handleField(field, errorContainer, errorMessage) {
   field.setCustomValidity("")
   errorContainer.textContent = ""
 
+  if (field.value && field.value.trim() === "") {
+    field.setCustomValidity("Can't just be whitespace.")
+    errorContainer.textContent = field.validationMessage
+    field.setAttribute("aria-describedby", errorContainer.id)
+    field.classList.add("is-invalid")
+    return
+  }
+
   if (field.validity.valueMissing) {
     field.setCustomValidity(errorMessage)
     errorContainer.textContent = field.validationMessage
     field.setAttribute("aria-describedby", errorContainer.id)
     field.classList.add("is-invalid")
-  } else {
-    field.classList.add("is-valid")
+    return
   }
+
+  field.classList.add("is-valid")
 }
 
 export function handleModalCloseButton() {
@@ -116,7 +124,7 @@ export function handlePostsContainer(event) {
   if (closestButton.classList.contains("post-edit-button")) {
     const post = blogPosts.getPostById(postId)
     modalTitleInput.value = post.title
-    modalContentTextarea.textContent = post.content
+    modalContentTextarea.value = post.content
     modalSaveButton.dataset.postId = post.id.toString()
     modal.show()
   }
