@@ -34,7 +34,7 @@
                 <fieldset class="border rounded-3 p-3">
                   <legend>Add a new blog post</legend>
                   <div class="mb-3">
-                    <label for="title-input">Title:</label>
+                    <label for="title-input" class="form-label">Title:</label>
                     <input
                       type="text"
                       name="title"
@@ -46,13 +46,13 @@
                     <p id="title-error" class="text-danger"></p>
                   </div>
                   <div class="mb-3">
-                    <label for="content-textarea">Content:</label>
+                    <label for="content-textarea" class="form-label">Content:</label>
                     <textarea
                       name="content"
                       id="content-textarea"
                       class="form-control"
                       autocomplete="off"
-                      placeholder="It was a dark and stormy night..."
+                      placeholder="It was a dark and stormy night&hellip;"
                       required></textarea>
                     <p id="content-error" class="text-danger"></p>
                   </div>
@@ -91,7 +91,7 @@
             </div>
             <div class="modal-body">
               <div class="mb-3">
-                <label for="modal-title-input"></label>
+                <label for="modal-title-input" class="form-label">New Title:</label>
                 <input
                   type="text"
                   name="title"
@@ -102,7 +102,7 @@
                 <p id="modal-title-error" class="text-danger"></p>
               </div>
               <div class="mb-3">
-                <label for="modal-content-textarea"></label>
+                <label for="modal-content-textarea" class="form-label">New Content:</label>
                 <textarea
                   name="content"
                   id="modal-content-textarea"
