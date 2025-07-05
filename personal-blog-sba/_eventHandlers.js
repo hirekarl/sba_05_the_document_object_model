@@ -121,14 +121,16 @@ export function handlePostsContainer(event) {
   const postId = parseInt(postArticle.dataset.id)
   const closestButton = event.target.closest("button")
 
-  if (closestButton.classList.contains("post-edit-button")) {
-    const post = blogPosts.getPostById(postId)
-    modalTitleInput.value = post.title
-    modalContentTextarea.value = post.content
-    modalSaveButton.dataset.postId = post.id.toString()
-    modal.show()
-  }
-  if (closestButton.classList.contains("post-delete-button")) {
-    blogPosts.removePost(postId)
+  if (closestButton) {
+    if (closestButton.classList.contains("post-edit-button")) {
+      const post = blogPosts.getPostById(postId)
+      modalTitleInput.value = post.title
+      modalContentTextarea.value = post.content
+      modalSaveButton.dataset.postId = post.id.toString()
+      modal.show()
+    }
+    if (closestButton.classList.contains("post-delete-button")) {
+      blogPosts.removePost(postId)
+    }
   }
 }
