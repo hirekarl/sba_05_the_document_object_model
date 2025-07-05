@@ -4,7 +4,7 @@ export const titleError = document.getElementById("title-error")
 export const contentTextarea = document.getElementById("content-textarea")
 export const contentError = document.getElementById("content-error")
 export const submitButton = document.getElementById("submit-button")
-export const postsContainer = document.getElementById("posts")
+export const postsContainer = document.getElementById("posts-container")
 export const modal = new bootstrap.Modal(document.getElementById("modal"), {
   focus: true,
   keyboard: true,
