@@ -18,7 +18,20 @@ Go to [glistening-tulumba-56567c.netlify.app/personal-blog-sba](https://glisteni
 
 ### Reflection
 Reflect on your development process, challenges faced, and how you overcame them.
+> This was pretty straightforward, mostly! When all was said and done, `script.js` was very long, and it was helpful&mdash;both for my sanity, and hopefully, for the legibility and comprehensibility of the codebase as a whole&mdash;to modularize. I also found I was repeating myself a lot in the form field event handlers, so I abstracted those functions into a `handleField()` function.
+> 
+> The tricky things were:
+> - finagling the modal
+> - handling the case where the user enters only white space in an `<input>` or `<textarea>` field
+> - handling the case where the user clicks on the Bootstrap icon inside a post's "Edit" or "Delete" button
 >
+> Regarding the modal, I kept having an issue where the form fields wouldn't populate properly with the values associated with the associated post's title or content. They'd carry over from the last interaction with the modal form, and/or the Bootstrap form validation utility classes wouldn't properly clear. I fixed it by manually resetting the form, clearing the values, and removing all the form validation utility classes on form submission and modal close. I also had to do research on proper usage of the `was-validated` utility class.
+>
+> I initially tried to fix the white space case by setting `pattern` attribute on the `<input>` and `<textarea>`s, and it took me a while to realize that `<textarea>`s can't use the `pattern` attribute. Then, I tried to implement an explicit match test on the field values, but my implementation would continue to report the white space error even when non-white space characters were entered (probably a regexp skill issue). In the end, it was easier and more effective to test whether the value gives a truthy value *and* results in an empty string when `.trim()` is applied.
+>
+> The last tricky issue had to do with capturing and bubbling: if the user clicked directly on an `<i>` tag containing a Bootstrap icon, the event on its parent `<button>` wouldn't fire. I fixed it by targeting the `.closest("button")` instead. Then, the script kept throwing an error when I clicked in the `postsContainer` outside of a button; I fixed this by wrapping the delegated event handlers for the buttons in an `if` statement that tests whether `closestButton` gives a truthy value.
+>
+> It also took me a little while to figure out how to properly disable the main "Submit" button when the associated form fields were valid. Then I realized I could just test whether the form itself reports validity when `.checkValidity()` is called and attach it to an `input` event listener on its parent form.
 
 ## Assignment Instructions
 In this Skills-Based Assessment (SBA), you will develop an “Interactive Personal Blog Platform” from scratch.
