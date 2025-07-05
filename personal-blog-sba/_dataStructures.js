@@ -1,11 +1,11 @@
 import { postsContainer } from "./_constants.js"
 
 export const blogPosts = {
-  items: [],
+  posts: [],
   domElement: postsContainer,
   sort: function () {
     // Order by timestamp, descending (most recent first).
-    this.items.sort((a, b) => {
+    this.posts.sort((a, b) => {
       return b.timestamp - a.timestamp
     })
   },
@@ -15,32 +15,35 @@ export const blogPosts = {
 
     const postsDocFrag = new DocumentFragment()
 
-    this.items.forEach((post) => postsDocFrag.appendChild(post.domElement))
+    this.posts.forEach((post) => postsDocFrag.appendChild(post.domElement))
     this.domElement.appendChild(postsDocFrag)
   },
   addNewPost: function (title, content, timestamp = Date.now()) {
-    let post = new Post(title, content, timestamp)
+    const post = new Post(title, content, timestamp)
     post.createHtml()
-    this.items.push(post)
+    this.posts.push(post)
     this.save()
   },
   getPostById: function (postId) {
-    const post = this.items.find((post) => post.id === postId)
-    return post
+    return this.posts.find((post) => post.id === postId)
   },
   editPost: function (postId, newTitle, newContent) {
     const postToEdit = this.getPostById(postId)
-    postToEdit.title = newTitle.trim()
-    postToEdit.content = newContent.trim()
-    postToEdit.createHtml()
-    this.save()
+    if (
+      newTitle.trim() !== postToEdit.title ||
+      newContent.trim() !== postToEdit.content
+    ) {
+      postToEdit.title = newTitle.trim()
+      postToEdit.content = newContent.trim()
+      postToEdit.createHtml()
+      this.save()
+    }
   },
   removePost: function (postId) {
-    let postToRemove = this.getPostById(postId)
+    const postToRemove = this.getPostById(postId)
     postToRemove.domElement.remove()
-    this.items.splice(this.items.indexOf(postToRemove), 1)
+    this.posts.splice(this.posts.indexOf(postToRemove), 1)
     this.save()
-    postToRemove = null
   },
   deserialize: function () {
     const postsJson = localStorage.getItem("posts")
@@ -59,13 +62,11 @@ export const blogPosts = {
     }
   },
   serialize: function () {
-    const postsArray = this.items.map((post) => post.deconstruct())
-    return JSON.stringify(postsArray)
+    return JSON.stringify(this.posts.map((post) => post.deconstruct()))
   },
   save: function () {
-    const postsJson = this.serialize()
     try {
-      localStorage.setItem("posts", postsJson)
+      localStorage.setItem("posts", this.serialize())
     } catch (error) {
       console.error("Couldn't save to local storage:", error)
     }
@@ -144,13 +145,11 @@ export class Post {
   }
 
   displayDate() {
-    const dateOptions = {
+    return Intl.DateTimeFormat("en-US", {
       dateStyle: "long",
       timeStyle: "short",
       timeZone: "America/New_York",
-    }
-
-    return Intl.DateTimeFormat("en-US", dateOptions).format(this.timestamp)
+    }).format(this.timestamp)
   }
 
   deconstruct() {

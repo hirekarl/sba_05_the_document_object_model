@@ -115,13 +115,12 @@ export function handleModalCloseButton() {
 }
 
 export function handlePostsContainer(event) {
-  resetModalForm()
-
   const postArticle = event.target.closest("article")
   const postId = parseInt(postArticle.dataset.id)
   const closestButton = event.target.closest("button")
 
   if (closestButton) {
+    resetModalForm()
     if (closestButton.classList.contains("post-edit-button")) {
       const post = blogPosts.getPostById(postId)
       modalTitleInput.value = post.title
