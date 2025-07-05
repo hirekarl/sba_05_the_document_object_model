@@ -19,9 +19,9 @@ export const blogPosts = {
     this.domElement.appendChild(postsDocFrag)
   },
   addNewPost: function (title, content, timestamp = Date.now()) {
-    const post = new Post(title, content, timestamp)
-    post.createHtml()
-    this.posts.push(post)
+    const postToAdd = new Post(title, content, timestamp)
+    postToAdd.createHtml()
+    this.posts.push(postToAdd)
     this.save()
   },
   getPostById: function (postId) {
