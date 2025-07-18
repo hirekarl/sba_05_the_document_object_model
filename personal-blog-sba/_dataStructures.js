@@ -20,7 +20,6 @@ export const blogPosts = {
   },
   addNewPost: function (title, content, timestamp = Date.now()) {
     const postToAdd = new Post(title, content, timestamp)
-    postToAdd.createHtml()
     this.posts.push(postToAdd)
     this.save()
   },
@@ -51,8 +50,8 @@ export const blogPosts = {
       const postsArray = JSON.parse(postsJson)
       postsArray.forEach((post) => {
         this.addNewPost(post.title, post.content, post.timestamp)
-        this.display()
       })
+      this.display()
     } else {
       try {
         localStorage.setItem("posts", JSON.stringify([]))
@@ -82,6 +81,8 @@ export class Post {
     this.title = title.trim()
     this.content = content.trim()
     this.timestamp = timestamp
+
+    this.createHtml()
   }
 
   createHtml() {
